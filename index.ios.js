@@ -7,35 +7,77 @@ import {
   TouchableOpacity,
   View,
   Image,
+  KeyboardAvoidingView,
 } from 'react-native'
 
+import LoginForm from './src/components/login/LoginForm'
+import Validate from './src/components/login/Validate'
+
 export default class testYuTrack extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      email: '',
+      password: '',
+      validate: false,
+    }
+
+    this.handleEmail = this.handleEmail.bind(this)
+    this.handlePassword = this.handlePassword.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleEmail(text) {
+    this.setState({
+      email: text
+    })
+  }
+
+  handlePassword(text) {
+    this.setState({
+      password: text
+    })
+  }
+
+  handleSubmit() {
+    if (this.state.email === '' || this.state.password === '') {
+      this.setState({
+        validate: true,
+        email: '',
+        password: '',
+      })
+    } else {
+      this.setState({
+        validate: false
+      })
+    }
+}
+
   render() {
     return (
       <Image
         source={require('./img/bg.jpg')}
         style={styles.container}
       >
-        <View>
+        <KeyboardAvoidingView behavior="padding">
           <Image
             source={require('./img/logo.png')}
             style={styles.logo}
           />
-          <TextInput
-            placeholder="Ingresa tu email"
-            style={styles.input}
+          <Validate validate={this.state.validate} />
+          <LoginForm
+            handleEmail={this.handleEmail}
+            handlePassword={this.handlePassword}
+            handleSubmit={this.handleSubmit}
+            email={this.state.email}
+            password={this.state.password}
+            validate={this.state.validate}
           />
-          <TextInput
-            placeholder="Ingresa tu clave"
-            style={styles.input}
-          />
-          <TouchableOpacity>
-            <Text style={styles.button}>INGRESAR</Text>
-          </TouchableOpacity>
           <View style={styles.hr}></View>
           <Text style={styles.link}>REGÍSTRATE</Text>
           <Text style={styles.link}>¿OLVIDASTE TU CLAVE?</Text>
-        </View>
+        </KeyboardAvoidingView>
       </Image >
     )
   }
@@ -57,29 +99,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
-  },
-  input: {
-    borderColor: '#88c793',
-    paddingLeft: 20,
-    backgroundColor: '#FFF',
-    marginTop: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-    borderWidth: 1,
-    height: 37,
-    width: 350,
-  },
-  button: {
-    color: 'white',
-    height: 30,
-    paddingTop: 10,
-    paddingBottom: 40,
-    lineHeight: 30,
-    marginTop: 30,
-    textAlign: 'center',
-    width: 350,
-    backgroundColor: '#d95220',
-    fontSize: 20,
   },
   link: {
     fontSize: 18,
