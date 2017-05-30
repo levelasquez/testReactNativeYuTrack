@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native'
 
+import Loading from './src/components/loading/Loading'
 import LoginForm from './src/components/login/LoginForm'
 import Validate from './src/components/login/Validate'
 
@@ -21,6 +22,7 @@ export default class testYuTrack extends Component {
       email: '',
       password: '',
       validate: false,
+      loading: true,
     }
 
     this.handleEmail = this.handleEmail.bind(this)
@@ -54,32 +56,41 @@ export default class testYuTrack extends Component {
     }
 }
 
+componentDidMount() {
+  const sleep = (timeout) =>
+    new Promise((resolve, reject) => setTimeout(() => resolve(), timeout))
+
+  sleep(4000).then(x => {
+    this.setState(Object.assign({}, this.state, { loading: false }))
+  })
+}
+
   render() {
-    return (
-      <Image
-        source={require('./img/bg.jpg')}
-        style={styles.container}
-      >
-        <KeyboardAvoidingView behavior="padding">
-          <Image
-            source={require('./img/logo.png')}
-            style={styles.logo}
-          />
-          <Validate validate={this.state.validate} />
-          <LoginForm
-            handleEmail={this.handleEmail}
-            handlePassword={this.handlePassword}
-            handleSubmit={this.handleSubmit}
-            email={this.state.email}
-            password={this.state.password}
-            validate={this.state.validate}
-          />
-          <View style={styles.hr}></View>
-          <Text style={styles.link}>REGÍSTRATE</Text>
-          <Text style={styles.link}>¿OLVIDASTE TU CLAVE?</Text>
-        </KeyboardAvoidingView>
-      </Image >
-    )
+    return this.state.loading
+      ? <Loading />
+      : <Image
+          source={require('./img/bg.jpg')}
+          style={styles.container}
+        >
+          <KeyboardAvoidingView behavior="padding">
+            <Image
+              source={require('./img/logo.png')}
+              style={styles.logo}
+            />
+            <Validate validate={this.state.validate} />
+            <LoginForm
+              handleEmail={this.handleEmail}
+              handlePassword={this.handlePassword}
+              handleSubmit={this.handleSubmit}
+              email={this.state.email}
+              password={this.state.password}
+              validate={this.state.validate}
+            />
+            <View style={styles.hr}></View>
+            <Text style={styles.link}>REGÍSTRATE</Text>
+            <Text style={styles.link}>¿OLVIDASTE TU CLAVE?</Text>
+          </KeyboardAvoidingView>
+        </Image >
   }
 }
 
