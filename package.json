@@ -1,5 +1,5 @@
 {
-	"name": "testYuTrack",
+	"name": "yu-track-enterprise",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -8,9 +8,15 @@
 	},
 	"dependencies": {
 		"react": "16.0.0-alpha.6",
-		"react-native": "0.44.0"
+		"react-native": "0.44.0",
+		"react-native-maps": "^0.15.2",
+		"react-redux": "^5.0.5",
+		"redux": "^3.6.0",
+		"redux-form": "^6.7.0",
+		"redux-saga": "^0.15.3"
 	},
 	"devDependencies": {
+		"anymatch": "^1.3.0",
 		"babel-jest": "20.0.3",
 		"babel-preset-react-native": "1.9.2",
 		"jest": "20.0.4",

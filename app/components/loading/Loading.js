@@ -20,15 +20,15 @@ const phrases = [
 
 export default props =>
   <Image
-    source={require('../../../img/map.png')}
+    source={require('../../images/map.png')}
     style={styles.container}
   >
     <Text style={styles.phrases}>
-      {phrases[Math.floor(Math.random()*phrases.length)]}
+      {phrases[Math.floor(Math.random() * phrases.length)]}
     </Text>
     <Text style={styles.loading}>Cargando...</Text>
     <Image
-      source={require('../../../img/pin.png')}
+      source={require('../../images/pin.png')}
       style={styles.pin}
     />
   </Image>

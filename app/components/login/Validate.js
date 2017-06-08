@@ -2,9 +2,15 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 export default props =>
-  <View style={props.validate ? styles.invalid : styles.valid}>
-    <Text style={styles.titleError}>EMAIL O CLAVE INCORRECTOS</Text>
-    <Text style={styles.textError}>Inténtalo nuevamente</Text>
+  <View style={props.errors ? styles.invalid : styles.valid}>
+    <Text style={styles.titleError}>ERROR</Text>
+    {
+      props.errors
+        ? props.errors.map((x, i) => {
+          <Text key={i}>{x.errors}</Text>
+        })
+        : null
+    }
   </View>
 
 const styles = StyleSheet.create({
