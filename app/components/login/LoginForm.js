@@ -2,26 +2,8 @@ import React from 'react'
 import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native'
 import { reduxForm, Field } from 'redux-form'
 
-// import Validate from './Validate'
-
-const validate = values => {
-  const errors = {}
-  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
-
-  errors.email = !values.email
-    ? 'Debe ingresar un correo'
-    : !emailRegex.test(values.email)
-      ? 'Ingrese un correo electrónico válido'
-      : undefined
-
-  errors.password = !values.password
-    ? 'Debe ingresar una contraseña'
-    : values.password.length < 8
-      ? 'La contraseña debe ser mínimo de 8 carácteres'
-      : undefined
-
-  return errors
-}
+import validate from './Validate'
+import Error from './Error'
 
 const email = ({ input: { value, onChange, onBlur }, meta: { touched, error }, ...rest }) =>
   <View>
@@ -53,12 +35,7 @@ const email = ({ input: { value, onChange, onBlur }, meta: { touched, error }, .
     }
   </View>
 
-// placeholderTextColor = { props.validate ? '#000' : '#c7c7cd' }
-// onChange = { event => props.handleEmail(event.nativeEvent.text) }
-// value = { props.email }
-// style = { props.validate ? styles.error : styles.input }
-
-const password = ({ input: { value, onChange, onBlur }, meta: { touched, error }, ...rest }) =>
+const password = ({ submit, input: { value, onChange, onBlur }, meta: { touched, error }, ...rest }) =>
   <View>
     <TextInput
       placeholder="Ingresa tu clave"
@@ -68,6 +45,7 @@ const password = ({ input: { value, onChange, onBlur }, meta: { touched, error }
       onBlur={value => onBlur(value)}
       onChangeText={value => onChange(value)}
       value={value}
+      onSubmitEditing={submit}
       style={
         touched && error
           ? styles.error
@@ -85,17 +63,11 @@ const password = ({ input: { value, onChange, onBlur }, meta: { touched, error }
     }
   </View>
 
-// placeholderTextColor = { props.validate ? '#000' : '#c7c7cd' }
-// value = { props.password }
-// onChange = { event => props.handlePassword(event.nativeEvent.text) }
-// onSubmitEditing = { props.handleSubmit }
-// style = { props.validate ? styles.error : styles.input }
-
-const LoginForm = ({ handleSubmit }) =>
+const LoginForm = ({ handleSubmit, status }) =>
   <View>
-    {/*<Validate errors={validate.errors} />*/}
+    <Error status={status} />
     <Field name="email" component={email} />
-    <Field name="password" component={password} />
+    <Field name="password" component={password} submit={handleSubmit} />
     <TouchableOpacity onPress={handleSubmit}>
       <Text style={styles.button}>INGRESAR</Text>
     </TouchableOpacity>

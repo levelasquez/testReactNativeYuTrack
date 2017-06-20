@@ -9,72 +9,34 @@ import {
   KeyboardAvoidingView,
 } from 'react-native'
 import { connect } from 'react-redux'
+import { withRouter, Redirect } from 'react-router'
 
 import Loading from '../components/loading/Loading'
 import LoginForm from '../components/login/LoginForm'
 
 class Login extends Component {
-  // constructor(props) {
-  //   super(props)
-
-  //   // this.handleEmail = this.handleEmail.bind(this)
-  //   // this.handlePassword = this.handlePassword.bind(this)
-  //   // this.handleSubmit = this.handleSubmit.bind(this)
-  //   // const { Login } = this.props
-  // }
-
-  // handleEmail(text) {
-  //   this.setState({
-  //     email: text
-  //   })
-  // }
-
-  // handlePassword(text) {
-  //   this.setState({
-  //     password: text
-  //   })
-  // }
-
-  // handleSubmit() {
-  //   if (this.state.email === '' || this.state.password === '') {
-  //     this.setState({
-  //       validate: true,
-  //       email: '',
-  //       password: '',
-  //     })
-  //   } else {
-  //     this.setState({
-  //       validate: false
-  //     })
-  //   }
-  // }
-
   render() {
     const { Login, login, loading } = this.props
     setTimeout(() => loading(), 4000)
-    return Login.loading
-      ? <Loading />
-      : <Image
-        source={require('../images/bg.jpg')}
-        style={styles.container}
-      >
-        <KeyboardAvoidingView behavior="padding">
-          <Image
-            source={require('../images/logo.png')}
-            style={styles.logo}
-          />
-          <LoginForm onSubmit={login}/>
-          {/*handleEmail={this.handleEmail}
-            handlePassword={this.handlePassword}
-            handleSubmit={this.handleSubmit}
-            email={this.state.email}
-            password={this.state.password}
-            validate={this.state.validate}*/}
-          <View style={styles.hr}></View>
-          <Text style={styles.link}>REGÍSTRATE</Text>
-          <Text style={styles.link}>¿OLVIDASTE TU CLAVE?</Text>
-        </KeyboardAvoidingView>
-      </Image >
+    return Login.go
+      ? <Redirect to="/map" />
+      : Login.loading
+        ? <Loading />
+        : <Image
+          source={require('../images/bg.jpg')}
+          style={styles.container}
+        >
+          <KeyboardAvoidingView behavior="padding">
+            <Image
+              source={require('../images/logo.png')}
+              style={styles.logo}
+            />
+            <LoginForm onSubmit={login} status={Login.status} />
+            <View style={styles.hr}></View>
+            <Text style={styles.link}>REGÍSTRATE</Text>
+            <Text style={styles.link}>¿OLVIDASTE TU CLAVE?</Text>
+          </KeyboardAvoidingView>
+        </Image >
   }
 }
 
@@ -113,12 +75,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({ Login: state.Login })
 
 const mapActionsToProps = dispatch => ({
-  login: x => {
-    console.log(x)
-    dispatch({ type: 'LOGIN', payload: x })},
+  login: x => dispatch({ type: 'LOGIN', payload: x }),
   loading: () => dispatch({ type: 'LOADING_END' }),
 })
 
-Login = connect(mapStateToProps, mapActionsToProps)(Login)
+Login = withRouter(connect(mapStateToProps, mapActionsToProps)(Login))
 
 export default Login
